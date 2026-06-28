@@ -148,13 +148,13 @@
   input[type=email]{
     flex:1 1 220px;
     min-width:0;
-    background:var(--bg);
-    border:1px solid var(--line);
+    background:var(--surface-2);
+    border:1.5px solid rgba(244,239,230,0.35);
     border-radius:10px;
-    padding:13px 14px;
+    padding:14px 15px;
     color:var(--text);
     font-family:'Public Sans', sans-serif;
-    font-size:15px;
+    font-size:16px;
   }
   input[type=email]::placeholder{color:var(--text-muted);}
   input[type=email]:focus{
@@ -241,6 +241,75 @@
     flex-direction:column;
     gap:18px;
   }
+
+  /* free vs paid comparison */
+  .tiers{
+    margin-top:24px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .tier{
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px 20px 18px;
+  }
+  .tier.paid{
+    background:var(--surface);
+    border-color:rgba(217,168,87,0.35);
+  }
+  .tier-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .tier-head b{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:17px;
+    color:var(--text);
+  }
+  .tier-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:3px 9px;
+    border-radius:20px;
+  }
+  .tier.free .tier-tag{
+    color:var(--sage);
+    border:1px solid var(--sage);
+  }
+  .tier.paid .tier-tag{
+    color:var(--gold);
+    border:1px solid var(--gold);
+  }
+  .tier ul{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+  }
+  .tier li{
+    font-size:14.5px;
+    color:var(--text-muted);
+    padding-left:20px;
+    position:relative;
+  }
+  .tier li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:7px;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+  }
+  .tier.free li::before{ background:var(--sage); }
+  .tier.paid li::before{ background:var(--gold); }
+  .tier li b{ color:var(--text); font-weight:600; }
   .step{
     display:flex;
     gap:14px;
@@ -314,14 +383,17 @@
 
   <div class="form-card" id="form-section">
     <h2>Entre na lista de espera</h2>
-    <p>Estamos validando essa ideia antes de construir. Deixe seu e-mail e te avisamos quando o Perto estiver pronto para testar. Sem spam, sem compromisso.</p>
+    <p>O Perto está em construção. Deixe seu e-mail e te avisamos quando estiver pronto para testar. Sem spam, sem compromisso.</p>
 
     <form id="waitlist-form" name="waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="waitlist">
       <p style="display:none">
         <label>Não preencha isto: <input name="bot-field"></label>
       </p>
-      <input type="email" name="email" id="email" placeholder="seu@email.com" required aria-label="Seu e-mail">
+      <div style="flex:1 1 220px; min-width:0;">
+        <label for="email" style="display:block; font-size:13px; color:var(--text-muted); margin-bottom:7px;">Seu e-mail</label>
+        <input type="email" name="email" id="email" placeholder="seu@email.com" required aria-label="Seu e-mail" style="width:100%;">
+      </div>
       <button type="submit">Quero ser avisado</button>
     </form>
 
@@ -375,6 +447,35 @@
   </section>
 
   <section>
+    <p class="eyebrow">O que tem dentro</p>
+    <h2>Comece de graça, evolua se fizer sentido</h2>
+    <p>O essencial não tem custo. A camada paga existe pra quem quer ir além do convite e do check-in.</p>
+
+    <div class="tiers">
+      <div class="tier free">
+        <div class="tier-head"><b>Grátis</b><span class="tier-tag">sempre</span></div>
+        <ul>
+          <li>Convite e consentimento, nos dois sentidos</li>
+          <li>Check-in diário ("resisti" / "apostei")</li>
+          <li>Botão de "preciso de apoio agora"</li>
+          <li>1 pessoa de apoio vinculada</li>
+          <li>Sequência de dias e progresso básico</li>
+        </ul>
+      </div>
+      <div class="tier paid">
+        <div class="tier-head"><b>Apoio completo</b><span class="tier-tag">pague o que puder</span></div>
+        <ul>
+          <li><b>Relatório semanal</b> de padrão, não só o aviso do dia</li>
+          <li><b>Círculo de apoio</b>, mais de uma pessoa acompanhando junto</li>
+          <li><b>Roteiro completo</b> de como agir no momento do pedido de ajuda</li>
+          <li><b>Indicação qualificada</b> de CAPS e psicólogos especializados</li>
+          <li>Histórico completo, sem limite de dias</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
     <p class="eyebrow">Complementar, não concorrente</p>
     <h2>O governo já bloqueia o CPF. O Perto cuida do resto.</h2>
     <p>Desde dezembro de 2025 existe a <a href="https://www.gov.br/fazenda/pt-br/assuntos/noticias/2025/dezembro/plataforma-centralizada-de-autoexclusao-entra-no-ar-para-permitir-bloqueio-de-acesso-a-todos-os-sites-de-apostas" target="_blank" rel="noopener">Plataforma Centralizada de Autoexclusão</a> do Governo Federal: gratuita, e bloqueia o CPF em todas as casas de apostas licenciadas do país de uma vez.</p>
@@ -388,7 +489,7 @@
   </section>
 
   <footer>
-    <p>Perto está em fase de validação. Esta página existe para entender se essa ideia faz sentido antes de construirmos qualquer coisa. Seu e-mail nos ajuda a decidir.</p>
+    <p>O Perto está em construção. Deixe seu e-mail e você é um dos primeiros a testar assim que a primeira versão estiver pronta.</p>
     <div class="help">
       <p><b>Precisa de ajuda agora?</b> Se você ou alguém da sua família está em crise emocional ou financeira por causa do jogo, ligue para o CVV: 188, gratuito, 24h.</p>
     </div>
