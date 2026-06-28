@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perto: apoio para famílias de quem aposta demais</title>
+<meta name="description" content="Uma forma calma de acompanhar e apoiar alguém da sua família que está apostando mais do que devia.">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0F2421;
+    --surface: #16302C;
+    --surface-2: #1C3A34;
+    --gold: #D9A857;
+    --sage: #6FA98C;
+    --text: #F4EFE6;
+    --text-muted: #9FB3AC;
+    --line: rgba(244,239,230,0.12);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  a{color:inherit;}
+
+  .wrap{
+    max-width:640px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  /* ---------- Eyebrow / utility text ---------- */
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--sage);
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    padding:28px 0 8px;
+  }
+  .brand{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:20px;
+    letter-spacing:0.01em;
+  }
+  .brand span{color:var(--gold);}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:48px 0 8px;
+  }
+  .hero h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(30px, 7vw, 42px);
+    line-height:1.18;
+    letter-spacing:-0.01em;
+    margin:14px 0 18px;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--gold);
+  }
+  .hero p.lede{
+    font-size:17px;
+    color:var(--text-muted);
+    max-width:480px;
+  }
+
+  /* two entry-path cards (replaces abstract pulse graphic) */
+  .paths{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:32px;
+  }
+  .path-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px 18px 16px;
+  }
+  .path-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:8px;
+  }
+  .path-card p{
+    font-size:15px;
+    color:var(--text);
+    margin:0 0 4px;
+  }
+  .path-card p.path-sub{
+    font-size:14px;
+    color:var(--text-muted);
+    margin:0;
+  }
+
+  /* ---------- Form ---------- */
+  .form-card{
+    margin-top:38px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:26px 22px;
+  }
+  .form-card h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:20px;
+    margin-bottom:6px;
+  }
+  .form-card p{
+    color:var(--text-muted);
+    font-size:14.5px;
+    margin-bottom:18px;
+  }
+  form{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  input[type=email]{
+    flex:1 1 220px;
+    min-width:0;
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:13px 14px;
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:15px;
+  }
+  input[type=email]::placeholder{color:var(--text-muted);}
+  input[type=email]:focus{
+    outline:2px solid var(--gold);
+    outline-offset:1px;
+  }
+  button{
+    background:var(--gold);
+    color:#1C140A;
+    border:none;
+    border-radius:10px;
+    padding:13px 20px;
+    font-family:'Public Sans', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    transition:filter 0.15s ease;
+    flex:0 0 auto;
+  }
+  button:hover{filter:brightness(1.08);}
+  button:focus-visible{outline:2px solid var(--text); outline-offset:2px;}
+
+  .fineprint{
+    font-size:12.5px;
+    color:var(--text-muted);
+    margin-top:12px;
+  }
+
+  #success-msg{
+    display:none;
+    background:var(--surface-2);
+    border:1px solid var(--sage);
+    border-radius:10px;
+    padding:14px 16px;
+    font-size:14.5px;
+    margin-top:4px;
+  }
+  #success-msg b{color:var(--sage);}
+
+  /* ---------- Sections ---------- */
+  section{
+    padding:46px 0;
+    border-top:1px solid var(--line);
+  }
+  section h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:24px;
+    margin-bottom:16px;
+    letter-spacing:-0.005em;
+  }
+  section p{
+    color:var(--text-muted);
+    font-size:15.5px;
+    max-width:520px;
+  }
+
+  /* problem stats */
+  .stat-row{
+    display:flex;
+    gap:22px;
+    margin-top:24px;
+    flex-wrap:wrap;
+  }
+  .stat{
+    flex:1 1 140px;
+  }
+  .stat .num{
+    font-family:'Fraunces', serif;
+    font-size:28px;
+    color:var(--gold);
+    line-height:1;
+  }
+  .stat .lbl{
+    font-size:13px;
+    color:var(--text-muted);
+    margin-top:6px;
+  }
+
+  /* how it works - genuine sequence */
+  .steps{
+    margin-top:22px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+  .step{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+  }
+  .step .when{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--sage);
+    width:64px;
+    flex:0 0 64px;
+    padding-top:3px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+  }
+  .step .what b{
+    display:block;
+    font-size:15.5px;
+    color:var(--text);
+    margin-bottom:3px;
+    font-weight:600;
+  }
+  .step .what span{
+    font-size:14.5px;
+    color:var(--text-muted);
+  }
+
+  footer{
+    padding:36px 0 48px;
+    border-top:1px solid var(--line);
+  }
+  footer p{
+    font-size:12.5px;
+    color:var(--text-muted);
+    max-width:520px;
+  }
+  footer .help{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+  }
+  footer .help b{color:var(--text);}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="brand"><img src="icon-192.png" alt="" width="28" height="28" style="vertical-align:-7px; margin-right:8px; border-radius:6px;">perto</div>
+  </header>
+
+  <div class="hero">
+    <p class="eyebrow">Apoio com consentimento, em qualquer direção</p>
+    <h1>Perto começa com<br><em>um convite, não com vigilância.</em></h1>
+    <p class="lede">Quem está apostando mais do que gostaria pode chamar alguém de confiança. Quem se preocupa com alguém pode convidar essa pessoa pra começar. Os dois caminhos levam ao mesmo lugar.</p>
+
+    <div class="paths">
+      <div class="path-card">
+        <div class="path-eyebrow">Caminho 1</div>
+        <p><strong>Você está apostando mais do que queria.</strong></p>
+        <p class="path-sub">Convide alguém de confiança pra te acompanhar, no seu ritmo e sem julgamento.</p>
+      </div>
+      <div class="path-card">
+        <div class="path-eyebrow">Caminho 2</div>
+        <p><strong>Alguém que você ama está apostando demais.</strong></p>
+        <p class="path-sub">Convide essa pessoa pra conhecer o Perto. Ela decide se aceita. Sempre.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-card" id="form-section">
+    <h2>Entre na lista de espera</h2>
+    <p>Estamos validando essa ideia antes de construir. Deixe seu e-mail e te avisamos quando o Perto estiver pronto para testar. Sem spam, sem compromisso.</p>
+
+    <form id="waitlist-form" name="waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="waitlist">
+      <p style="display:none">
+        <label>Não preencha isto: <input name="bot-field"></label>
+      </p>
+      <input type="email" name="email" id="email" placeholder="seu@email.com" required aria-label="Seu e-mail">
+      <button type="submit">Quero ser avisado</button>
+    </form>
+
+    <div id="success-msg"><b>Pronto.</b> Você está na lista. Avisamos por e-mail assim que tivermos novidades.</div>
+
+    <p class="fineprint">Gratuito para entrar na lista. Você pode pedir pra sair quando quiser.</p>
+  </div>
+
+  <section>
+    <p class="eyebrow">O tamanho do problema</p>
+    <h2>Isso já está dentro de muitas casas</h2>
+    <p>O jogo patológico é reconhecido pela OMS como transtorno desde 2018. No Brasil, ele já chega perto de quem você ama, e quase sempre a família percebe tarde.</p>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="num">10,9M</div>
+        <div class="lbl">brasileiros com uso arriscado de apostas, segundo levantamento da Unifesp</div>
+      </div>
+      <div class="stat">
+        <div class="num">1,4M</div>
+        <div class="lbl">já com prejuízos pessoais, sociais ou financeiros reconhecidos</div>
+      </div>
+      <div class="stat">
+        <div class="num">R$23,9bi</div>
+        <div class="lbl">perdidos em apostas online no Brasil em 12 meses, segundo o Itaú BBA</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Como funciona</p>
+    <h2>Apoio, não vigilância</h2>
+    <p>O convite pode partir de quem está apostando ou de quem se preocupa, e só começa a valer quando os dois aceitam.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="when">convite</div>
+        <div class="what"><b>Qualquer um pode começar</b><span>Quem está apostando convida alguém de confiança, ou quem se preocupa convida essa pessoa. Os dois decidem: ninguém é obrigado a aceitar.</span></div>
+      </div>
+      <div class="step">
+        <div class="when">check-in</div>
+        <div class="what"><b>Registros simples, não extrato bancário</b><span>"Hoje resisti" ou "hoje apostei": sem acesso a conta, sem dado financeiro sensível.</span></div>
+      </div>
+      <div class="step">
+        <div class="when">pedido</div>
+        <div class="what"><b>Ela aciona quando precisa</b><span>Um botão de "preciso de apoio agora" avisa você. Nunca um monitoramento passivo.</span></div>
+      </div>
+      <div class="step">
+        <div class="when">presença</div>
+        <div class="what"><b>Você responde com um toque</b><span>Mensagens de incentivo prontas, sem precisar inventar o que dizer toda vez.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Complementar, não concorrente</p>
+    <h2>O governo já bloqueia o CPF. O Perto cuida do resto.</h2>
+    <p>Desde dezembro de 2025 existe a <a href="https://www.gov.br/fazenda/pt-br/assuntos/noticias/2025/dezembro/plataforma-centralizada-de-autoexclusao-entra-no-ar-para-permitir-bloqueio-de-acesso-a-todos-os-sites-de-apostas" target="_blank" rel="noopener">Plataforma Centralizada de Autoexclusão</a> do Governo Federal: gratuita, e bloqueia o CPF em todas as casas de apostas licenciadas do país de uma vez.</p>
+    <p style="margin-top:14px">Só tem um detalhe: <strong style="color:var(--text)">só a própria pessoa que aposta pode pedir esse bloqueio.</strong> Quem ama e se preocupa não tem esse botão. O Perto existe pra esse espaço entre os dois: ajuda a pessoa a chegar até essa decisão, e continua ao lado dela depois, porque o bloqueio oficial não cobre sites ilegais nem cuida da parte emocional do dia a dia.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Além do dinheiro</p>
+    <h2>O peso que ninguém vê de fora</h2>
+    <p>A ludopatia é reconhecida como transtorno pela Organização Mundial da Saúde. Famílias de quem convive com isso carregam um desgaste emocional real: culpa, vergonha, noites em claro, a sensação de estar sempre um passo atrás. Não existe um jeito fácil de lidar com isso sozinho, e ninguém deveria precisar.</p>
+  </section>
+
+  <footer>
+    <p>Perto está em fase de validação. Esta página existe para entender se essa ideia faz sentido antes de construirmos qualquer coisa. Seu e-mail nos ajuda a decidir.</p>
+    <div class="help">
+      <p><b>Precisa de ajuda agora?</b> Se você ou alguém da sua família está em crise emocional ou financeira por causa do jogo, ligue para o CVV: 188, gratuito, 24h.</p>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Hidden static form copy for Netlify build-time form detection -->
+<form name="waitlist" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="email" name="email">
+  <input name="bot-field">
+</form>
+
+<script>
+  // Form submit -> Netlify handles POST; show success state without leaving page
+  var form = document.getElementById('waitlist-form');
+  if(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var data = new FormData(form);
+      fetch('/', {
+        method:'POST',
+        headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body:new URLSearchParams(data).toString()
+      }).then(function(){
+        form.style.display='none';
+        document.getElementById('success-msg').style.display='block';
+      }).catch(function(){
+        form.style.display='none';
+        document.getElementById('success-msg').style.display='block';
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
